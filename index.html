@@ -6,114 +6,200 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitNova AI</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: var(--tg-theme-bg-color, #1c1c1e);
-            --text-color: var(--tg-theme-text-color, #ffffff);
-            --button-color: var(--tg-theme-button-color, #007aff);
-            --button-text-color: var(--tg-theme-button-text-color, #ffffff);
+            --primary: #8A2BE2;
+            /* BlueViolet */
+            --primary-gradient: linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%);
+            --bg-color: #000000;
+            --card-bg: #1C1C1E;
+            --text-color: #FFFFFF;
+            --text-secondary: #A1A1A6;
+            --input-bg: #2C2C2E;
+            --border-radius: 16px;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease-out;
         }
 
         h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
+            margin: 0 0 8px 0;
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 15px;
         }
 
         .form-group {
-            width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 500;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-left: 4px;
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #3a3a3c;
-            background-color: #2c2c2e;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid transparent;
+            background-color: var(--input-bg);
             color: var(--text-color);
             font-size: 16px;
+            font-family: 'Inter', sans-serif;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+            background-color: #3A3A3C;
+            box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.15);
+        }
+
+        /* Custom Select Arrow */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23A1A1A6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px top 50%;
+            background-size: 12px auto;
         }
 
         button {
-            background-color: var(--button-color);
-            color: var(--button-text-color);
+            background: var(--primary-gradient);
+            color: white;
             border: none;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: var(--border-radius);
             width: 100%;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 17px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 24px;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
         }
 
         button:active {
-            opacity: 0.8;
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glassmorphism Card for Inputs */
+        .card {
+            background: rgba(28, 28, 30, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 24px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
-    <h1>FitNova: Твой План</h1>
+    <div class="container">
+        <h1>FitNova</h1>
+        <p class="subtitle">Создай идеальную версию себя</p>
 
-    <div class="form-group">
-        <label for="age">Возраст</label>
-        <input type="number" id="age" placeholder="25">
+        <div class="card">
+            <div class="form-group">
+                <label for="age">Возраст</label>
+                <input type="number" id="age" placeholder="25" inputmode="numeric">
+            </div>
+
+            <div class="form-group">
+                <label for="weight">Вес (кг)</label>
+                <input type="number" id="weight" placeholder="70" inputmode="decimal">
+            </div>
+
+            <div class="form-group">
+                <label for="height">Рост (см)</label>
+                <input type="number" id="height" placeholder="175" inputmode="numeric">
+            </div>
+
+            <div class="form-group">
+                <label for="goal">Цель</label>
+                <select id="goal">
+                    <option value="lose_weight">🔥 Похудение</option>
+                    <option value="gain_muscle">💪 Набор массы</option>
+                    <option value="maintain">⚖️ Поддержание формы</option>
+                    <option value="recomp">🔄 Рекомпозиция</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="place">Где тренируемся?</label>
+                <select id="place">
+                    <option value="gym">🏋️‍♂️ В зале</option>
+                    <option value="home">🏠 Дома</option>
+                    <option value="street">🌳 На улице</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="submitBtn">Получить план</button>
     </div>
-
-    <div class="form-group">
-        <label for="weight">Вес (кг)</label>
-        <input type="number" id="weight" placeholder="70">
-    </div>
-
-    <div class="form-group">
-        <label for="height">Рост (см)</label>
-        <input type="number" id="height" placeholder="175">
-    </div>
-
-    <div class="form-group">
-        <label for="goal">Цель</label>
-        <select id="goal">
-            <option value="lose_weight">Похудение</option>
-            <option value="gain_muscle">Набор массы</option>
-            <option value="maintain">Поддержание формы</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="place">Где тренируемся?</label>
-        <select id="place">
-            <option value="gym">В зале</option>
-            <option value="home">Дома</option>
-        </select>
-    </div>
-
-    <button id="submitBtn">Получить программу</button>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.enableClosingConfirmation();
+
+        // Apply theme params if available (optional, but good for native feel)
+        // document.body.style.backgroundColor = tg.themeParams.bg_color;
 
         document.getElementById('submitBtn').addEventListener('click', () => {
+            // Haptic feedback
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
             const data = {
                 age: document.getElementById('age').value,
                 weight: document.getElementById('weight').value,
@@ -124,10 +210,11 @@
 
             if (!data.age || !data.weight || !data.height) {
                 tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Пожалуйста, заполните все поля',
-                    buttons: [{ type: 'ok' }]
+                    title: 'Упс!',
+                    message: 'Пожалуйста, заполните все поля, чтобы ИИ мог составить точный план.',
+                    buttons: [{type: 'ok'}]
                 });
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 return;
             }
 
