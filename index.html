@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitNova AI</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #1c1c1e);
+            --text-color: var(--tg-theme-text-color, #ffffff);
+            --button-color: var(--tg-theme-button-color, #007aff);
+            --button-text-color: var(--tg-theme-button-text-color, #ffffff);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #3a3a3c;
+            background-color: #2c2c2e;
+            color: var(--text-color);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--button-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>FitNova: Твой План</h1>
+
+    <div class="form-group">
+        <label for="age">Возраст</label>
+        <input type="number" id="age" placeholder="25">
+    </div>
+
+    <div class="form-group">
+        <label for="weight">Вес (кг)</label>
+        <input type="number" id="weight" placeholder="70">
+    </div>
+
+    <div class="form-group">
+        <label for="height">Рост (см)</label>
+        <input type="number" id="height" placeholder="175">
+    </div>
+
+    <div class="form-group">
+        <label for="goal">Цель</label>
+        <select id="goal">
+            <option value="lose_weight">Похудение</option>
+            <option value="gain_muscle">Набор массы</option>
+            <option value="maintain">Поддержание формы</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="place">Где тренируемся?</label>
+        <select id="place">
+            <option value="gym">В зале</option>
+            <option value="home">Дома</option>
+        </select>
+    </div>
+
+    <button id="submitBtn">Получить программу</button>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const data = {
+                age: document.getElementById('age').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value,
+                goal: document.getElementById('goal').value,
+                place: document.getElementById('place').value
+            };
+
+            if (!data.age || !data.weight || !data.height) {
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Пожалуйста, заполните все поля',
+                    buttons: [{ type: 'ok' }]
+                });
+                return;
+            }
+
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+
+</html>
